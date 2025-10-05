@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #5bb0e9, #6dfabf);
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #fffefe;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #21c2d8;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1aa9ba;
+    }
+
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background: #e6f7fa;
+      border: 1px solid #b6e0ea;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    table {
+      margin-top: 30px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Patient Registration Form</h2>
+
+  <div class="form-container">
+    <form id="patientForm">
+      <label>Full Name</label>
+      <input type="text" id="name" required>
+
+      <label>Date of Birth</label>
+      <input type="date" id="dob" required>
+
+      <label>Gender</label>
+      <select id="gender" required>
+        <option value="">Select</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+      </select>
+
+      <label>Phone Number</label>
+      <input type="tel" id="phone" required>
+
+      <label>Email</label>
+      <input type="email" id="email">
+
+      <label>Address</label>
+      <textarea id="address" rows="3" required></textarea>
+
+      <label>Medical History</label>
+      <textarea id="history" rows="4"></textarea>
+
+      <button type="submit">Register Patient</button>
+    </form>
+
+    <div class="result" id="result" style="display: none;">
+      <h3>Patient Registered Successfully!</h3>
+      <pre id="preview"></pre>
+    </div>
+
+    <div class="result">
+      <h3>Registered Patients</h3>
+      <table id="patientTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>DOB</th>
+            <th>Gender</th>
+            <th>Phone</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rows will be populated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Replace with your Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyCQ1cgQuydukNEe3ZmLraujPvBjXAT123Y",
+    authDomain: "akshita-hospital.firebaseapp.com",
+    databaseURL: "https://akshita-hospital-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "akshita-hospital",
+    storageBucket: "akshita-hospital.firebasestorage.app",
+    messagingSenderId: "663694107461",
+    appId: "1:663694107461:web:3f0be7085bcf8a50fbd42c",
+    measurementId: "G-K1M8Y2WDW1"
+  };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const form = document.getElementById("patientForm");
+    const resultBox = document.getElementById("result");
+    const preview = document.getElementById("preview");
+    const tableBody = document.querySelector("#patientTable tbody");
+
+    // Submit handler
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const patient = {
+        name: document.getElementById("name").value,
+        dob: document.getElementById("dob").value,
+        gender: document.getElementById("gender").value,
+        phone: document.getElementById("phone").value,
+        email: document.getElementById("email").value,
+        address: document.getElementById("address").value,
+        history: document.getElementById("history").value,
+        createdAt: new Date()
+      };
+
+      try {
+        const docRef = await db.collection("patients").add(patient);
+        preview.textContent = `ID: ${docRef.id}\n` + JSON.stringify(patient, null, 2);
+        resultBox.style.display = "block";
+        form.reset();
+        loadPatients(); // Refresh table
+      } catch (error) {
+        console.error("Error adding patient: ", error);
+        alert("Error saving data to Firebase");
+      }
+    });
+
+    // Load and display patients
+    async function loadPatients() {
+      const snapshot = await db.collection("patients").orderBy("createdAt", "desc").get();
+      tableBody.innerHTML = "";
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const row = `
+          <tr>
+            <td>${data.name}</td>
+            <td>${data.dob}</td>
+            <td>${data.gender}</td>
+            <td>${data.phone}</td>
+            <td>${data.email || '-'}</td>
+          </tr>
+        `;
+        tableBody.innerHTML += row;
+      });
+    }
+
+    // Load patients on page load
+    loadPatients();
+  </script>
+
+</body>
+
+</html>

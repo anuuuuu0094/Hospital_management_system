@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Doctor Time Table</title>
+   <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #5bb0e9, #6dfabf);
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 89vh;
+    }
+
+    h2 {
+      background-color: #e5fdff;
+      padding: 10px 30px;
+      border-radius: 6px;
+      color: #007a7a;
+      margin-bottom: 30px;
+      border-bottom: 3px solid #00b5c5;
+    }
+
+    .timetable {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      border-top: 1px dotted #ccc;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .row:last-child {
+      border-bottom: 1px dotted #ccc;
+    }
+
+    .day, .time, .action {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .time {
+      justify-content: center;
+    }
+
+    .action {
+      justify-content: flex-end;
+    }
+
+    .action button {
+      background-color: #21c2d8;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .action button:hover {
+      background-color: #1aa9ba;
+    }
+
+    .icon {
+      font-size: 18px;
+      color: #777;
+    }
+
+    #reminder-banner {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #fffae6;
+      color: #333;
+      padding: 15px 25px;
+      border: 1px solid #ffd700;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      font-size: 16px;
+      z-index: 1000;
+    }
+
+    @media (max-width: 600px) {
+      .row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .action {
+        justify-content: center;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>Doctor Availability Time Table</h2>
+  <div class="timetable" id="timetable"></div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCQ1cgQuydukNEe3ZmLraujPvBjXAT123Y",
+      authDomain: "akshita-hospital.firebaseapp.com",
+      databaseURL: "https://akshita-hospital-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "akshita-hospital",
+      storageBucket: "akshita-hospital.appspot.com",
+      messagingSenderId: "663694107461",
+      appId: "1:663694107461:web:3f0be7085bcf8a50fbd42c",
+      measurementId: "G-K1M8Y2WDW1"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    const days = [
+      { day: "SUN", time: "HOLIDAY", isWorkingDay: false },
+      { day: "MON", time: "10 AM – 5 PM", isWorkingDay: true },
+      { day: "TUE", time: "10 AM – 5 PM", isWorkingDay: true },
+      { day: "WED", time: "10 AM – 5 PM", isWorkingDay: true },
+      { day: "THU", time: "10 AM – 5 PM", isWorkingDay: true },
+      { day: "FRI", time: "10 AM – 5 PM", isWorkingDay: true },
+      { day: "SAT", time: "10 AM – 5 PM", isWorkingDay: true },
+    ];
+
+    const timetable = document.getElementById("timetable");
+
+    function renderTimeTable() {
+      days.forEach((d) => {
+        const row = document.createElement("div");
+        row.className = "row";
+        row.innerHTML = `
+          <div class="day"><span class="icon">📅</span>${d.day}</div>
+          <div class="time"><span class="icon">⏳</span>${d.time}</div>
+          <div class="action">
+            <button ${!d.isWorkingDay ? "disabled" : ""} onclick="bookAppointment('${d.day}')">
+              Make An Appointment
+            </button>
+          </div>`;
+        timetable.appendChild(row);
+      });
+    }
+
+    function bookAppointment(day) {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (!user) {
+          alert("Please log in to book an appointment.");
+          window.location.href = "login.html";
+          return;
+        }
+
+        const userTime = prompt(`Select appointment time on ${day} (HH:MM in 24h format):`, "14:00");
+        if (!userTime) return;
+
+        const now = new Date();
+        const [hour, minute] = userTime.split(":").map(Number);
+        const appointment = new Date();
+        appointment.setHours(hour, minute, 0, 0);
+
+        if (appointment <= now) {
+          alert("Invalid time. Please choose a future time.");
+          return;
+        }
+
+        localStorage.setItem("appointment", JSON.stringify({
+          day: day,
+          time: userTime,
+          timestamp: appointment.getTime()
+        }));
+
+        window.location.href = "index.html";
+        alert(`Appointment booked on ${day} at ${userTime}. You will get a reminder.`);
+      });
+    }
+
+    renderTimeTable();
+  </script>
+</body>
+</html>

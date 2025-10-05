@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Healthcare Billing System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container-3">
+    <div class="billing-container">
+      <h2>Patient Billing System</h2>
+
+      <div class="form-section">
+        <label>Patient Name:</label>
+        <input type="text" id="patientName">
+
+        <label>Service:</label>
+        <input type="text" id="serviceName">
+
+        <label>Cost ($):</label>
+        <input type="number" id="serviceCost">
+
+        <label>Insurance Provider:</label>
+        <input type="text" id="insuranceProvider">
+
+        <button class="payment-btn" onclick="addService()">Add Service</button>
+      </div>
+
+      <h3>Services Rendered</h3>
+      <table id="serviceTable">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Cost ($)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dynamic rows -->
+        </tbody>
+      </table>
+
+      <h3>Total: $<span id="totalCost">0.00</span></h3>
+
+      <button class="payment-btn" onclick="generateInvoice()">Generate Invoice</button>
+
+      <div id="invoiceSection" class="hidden">
+        <h3>Invoice</h3>
+        <p><strong>Patient:</strong> <span id="invPatient"></span></p>
+        <p><strong>Insurance:</strong> <span id="invInsurance"></span></p>
+        <p><strong>Total Due:</strong> $<span id="invTotal"></span></p>
+        <button class="payment-btn" onclick="processPayment()">Pay Now</button>
+      </div>
+
+      <hr>
+
+      <h3>Payment History</h3>
+      <input type="text" id="historyPatientName" placeholder="Enter patient name">
+      <button class="payment-btn" onclick="loadPaymentHistory()">Load History</button>
+      <div id="historyResults"></div>
+    </div>
+  </div>
+
+  <script type="module" src="payment.js"></script>
+</body>
+</html>

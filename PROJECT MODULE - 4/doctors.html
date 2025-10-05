@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Doctors</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOoMlDfFpbTXCPxLCTe36Me8qcRvvW0OShBQ&s");
+      height: 100vh;
+      background-attachment: fixed;
+      background-size: cover;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #2c3e50;
+    }
+
+    .doctor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      cursor: pointer;
+    }
+
+    .card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 1rem;
+    }
+
+    .card-content h3 {
+      margin-bottom: 0.5rem;
+      color: #34495e;
+    }
+
+    .card-content p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .card-content .specialty {
+      color: #3498db;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Meet Our Doctors</h1>
+
+  <div class="doctor-grid">
+    <div class="card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTjT3F86QuckWJjnmlU_k69xJ4qovN-XZIecK9mtLeg68h8mLSRu4WU4RrSyMvlN-FfuE&usqp=CAU" alt="Doctor Image">
+      <div class="card-content">
+        <h3>Dr. Sarah Johnson</h3>
+        <p class="specialty">Cardiologist</p>
+        <p>15+ years of experience in cardiovascular treatment and patient care.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZy1XZkawkw7D8aJwEqS4aBTV09HvgBqZULHvEg8wULhPOqOWycWBn-6a-CpzoBU9KCjE&usqp=CAU" alt="Doctor Image">
+      <div class="card-content">
+        <h3>Dr. Mark Smith</h3>
+        <p class="specialty">Neurologist</p>
+        <p>Specialist in neurological disorders and brain health with global recognition.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://www.shutterstock.com/image-photo/portrait-young-lady-doctor-600nw-2473538995.jpg" alt="Doctor Image">
+      <div class="card-content">
+        <h3>Dr. Emily Brown</h3>
+        <p class="specialty">Pediatrician</p>
+        <p>Caring for children’s health with compassion and expert knowledge.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://www.shutterstock.com/image-photo/portrait-handsome-male-doctor-stethoscope-600nw-2480850611.jpg" alt="Doctor Image">
+      <div class="card-content">
+        <h3>Dr. James Lee</h3>
+        <p class="specialty">Orthopedic Surgeon</p>
+        <p>Expert in joint replacement and advanced orthopedic surgical techniques.</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

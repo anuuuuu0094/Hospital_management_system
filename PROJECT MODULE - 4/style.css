@@ -1,0 +1,483 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.container-1{
+    background-image: url("https://t4.ftcdn.net/jpg/06/41/28/53/360_F_641285386_tOoKNoBCBrrDF3MTNtT0O12QxEvw59k0.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+}
+header{
+    background: #0f0644;
+    opacity: 0.8;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    align-items: center;
+}
+.left{
+    display: flex;
+    color: rgb(255, 255, 255);
+    gap: 10px;
+}
+.left a{
+    font-size: 25px;
+}
+.mid img{
+    height: 90px;
+    width: 800px;
+}
+.mid img:hover{
+   transform: scale(1.03);
+    transition: 0.2s ease;
+
+
+}
+.right{
+    display: flex;
+    gap: 10px;
+
+}
+.left:hover{
+    /* transform: translate(1px, 1px);  */
+    transform: scale(1.05);
+    transition: 0.2s;
+
+}
+.right img{
+    height: 40px;
+}
+img:hover{
+    cursor: pointer;
+}
+
+#doctors{
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}
+
+nav{
+    position: sticky;
+    top: 0;
+    background-color: #957cd1;
+    color: #ffffff;
+    opacity: 0.6;
+    padding: 10px;
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    gap: 150px;
+    /* background: #a2f8d4; */
+    
+}
+#apoint-btn{
+    
+    width: 200px;
+    /* overflow: hidden; */
+    height: 30px;
+    background: #01a078;
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    border: none;
+}
+#apoint-btn:hover{
+    background: #0b9ee2;
+    cursor: pointer;
+}
+.screen-1{
+    align-items: center;
+    align-content: center;
+    line-height: 70px;
+    color: rgb(98, 2, 128);
+    height: 80vh;
+    text-align: center;
+    /* background-size: cover; */
+    /* background-attachment: fixed; */
+}
+.screen-1  h2 {
+  font-size: 50px;
+}
+.container-2{
+  background-image: url("https://www.shutterstock.com/image-photo/doctor-utilizing-advanced-digital-tablet-600nw-2481904799.jpg");
+  background-size: cover;
+  color:  rgb(149, 55, 175);
+  background-attachment: fixed;
+    /* height: 100vh; */
+    text-align: center;
+    padding: 30px;
+    line-height: 30px;
+}
+.container-2>h2{
+    /* border: 5px solid rgb(239, 239, 239); */
+    border-radius: 10px;
+    width: 200px;
+    margin-left: 40%;
+    
+}
+.mid-2{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 20px;
+    justify-content: center;
+}
+.mid-2 > img{
+    /* border: 10px solid #957cd1; */
+    padding-top: 30px;
+    border-radius: 10px;
+    height: 600px;
+    width: 570px;
+}
+.mid-2-container >p{
+    line-height: 35px;
+}
+
+.mid-2-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  
+  .service {
+    background-color: #28c7db;
+    border-radius: 8px;
+    padding: 30px 20px;
+    color: white;
+    transition: transform 0.2s ease;
+  }
+  
+  .service:hover {
+    transform: scale(1.05);
+    transition: 0.2s;
+  }
+  .right:hover{
+    transform: scale(1.05);
+    transition: 0.2s;
+  }
+  
+  .service img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 15px;
+  }
+  
+  .service p {
+    margin: 0;
+    font-size: 16px;
+    color: #fff;
+  }
+  .service img{
+    border-radius: 10px;
+  }
+  
+  .view-all button {
+    background-color: transparent;
+    color: #28c7db;
+    border: 2px solid #28c7db;
+    padding: 10px 25px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .view-all button:hover {
+    background-color: #28c7db;
+    color: white;
+  }
+
+
+  .user-container {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+}
+
+.user-icon {
+    align-items: center;
+    
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.logout-button {
+  display: none;
+  margin-top: 10px;
+  padding: 6px 12px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* payment styling */
+
+.container-3{
+  font-family: Arial, sans-serif;
+   background-image: url("https://thumbs.dreamstime.com/b/mobile-banking-network-online-payment-digital-marketing-business-people-using-phone-credit-card-icon-co-connection-154742018.jpg");
+  background-size: cover;
+  padding: 20px;
+}
+
+.billing-container {
+  max-width: 600px;
+  background: #62f1e6;
+  padding: 25px;
+  margin: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.payment-btn {
+  padding: 10px 15px;
+  background: #8f2b24;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.payment-btn:hover {
+  background: #218838;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+table th, table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.hidden {
+  display: none;
+}
+
+.payment-btn-nav{
+  background: #ff7676;
+  color: whitesmoke;
+  border: none;
+  font-weight: bolder;
+  border-radius: 3px;
+  width: 80px;
+}
+
+.payment-btn-nav:hover{
+  background: #043112;
+}
+
+#doctors:hover{
+  color: #ac0303;
+}
+
+
+/* pop up  */
+
+#popup {
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  width: 250px;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  display: block;
+  z-index: 999;
+  font-family: sans-serif;
+}
+
+#popup-header {
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+#popup-body {
+  padding: 10px;
+  font-size: 14px;
+}
+
+#close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+#popup-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 999;
+}
+
+
+.container-4{
+  text-align: center;
+  background: linear-gradient(135deg, #5bb0e9, #6dfabf);
+  line-height: 50px;
+}
+
+.container-4 > p{
+  color:  rgb(98, 2, 128);
+}
+
+.container-4 li{
+  font-size: 50px;
+  opacity: 0.5;
+}
+
+.footer-container{
+  background: #000;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  padding: 30px;
+}
+footer{
+  background: #000;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.container-4>h2{
+    border: 2px solid rgb(148, 99, 227);
+    background: #e9e9e9;
+    /* width: 200px; */
+    /* margin-left: 40%; */
+    
+}
+
+
+/* Tablet view */
+@media (max-width: 1024px) {
+  .mid img {
+    width: 100%;
+    height: auto;
+  }
+
+  nav {
+    gap: 50px;
+    flex-wrap: wrap;
+  }
+ .container-4{
+    overflow: hidden;
+  }
+
+  .mid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .container-2 > h2 {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .mid img {
+    width: 100%;
+    height: auto;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .mid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    display: none;
+  }
+
+  .container-2 > h2 {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .mid-2-container p{
+    display: none;
+  }
+  .container-4{
+    display: none;
+  }
+
+  .right img {
+    height: 30px;
+  }
+
+  .screen-1 h2 {
+    font-size: 32px;
+    line-height: 1.4;
+  }
+
+  .container-4 p {
+    line-height: 5px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+}

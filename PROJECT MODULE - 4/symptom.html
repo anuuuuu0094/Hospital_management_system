@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Symptom Checker</title>
+  <link rel="stylesheet" href="style-symptom.css">
+</head>
+<body>
+  <div class="container">
+    <h1>AI Symptom Checker</h1>
+    <h3>Rules--</h3>
+    <p>Enter your symptoms separated by commas:</p>
+    <p>At least two symptoms are required to check the possiblity</p>
+    <p>For exact result please provide all symptoms : e.g: fever, cough, fatigue , sneezing , itchy eyes</p>
+    <input type="text" id="symptomsInput" placeholder="e.g. fever, cough, fatigue">
+    <button onclick="checkSymptoms()">Check</button>
+    <div id="result"></div>
+  </div>
+
+  <script src="symptoms.js"></script>
+</body>
+</html>

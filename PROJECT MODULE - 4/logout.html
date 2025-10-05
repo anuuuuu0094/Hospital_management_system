@@ -1,0 +1,135 @@
+
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Logout Page</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #5bb0e9, #6dfabf);
+      height: 84vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px;
+      color: #333;
+    }
+
+    h1 {
+      color: #007b8f;
+    }
+
+    .user-info {
+      margin: 20px;
+      padding: 20px;
+      background-color: #ffffff;
+      border: 1px solid #d0e6e6;
+      border-radius: 8px;
+      font-size: 18px;
+    }
+
+    button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #c0392b;
+    }
+
+    .logout-only {
+      background-color: #f39c12;
+    }
+
+    .logout-only:hover {
+      background-color: #e67e22;
+    }
+
+    .error {
+      color: red;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Logout Page</h1>
+  <div id="userDetails" class="user-info">Loading user info...</div>
+  <button onclick="logoutUser()">Logout & Delete Account</button>
+  <button class="logout-only" onclick="logoutOnly()">Logout Only</button>
+  <div id="error" class="error"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+
+  <script>
+    // Firebase config (same as your other pages)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCQ1cgQuydukNEe3ZmLraujPvBjXAT123Y",
+      authDomain: "akshita-hospital.firebaseapp.com",
+      databaseURL: "https://akshita-hospital-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "akshita-hospital",
+      storageBucket: "akshita-hospital.appspot.com",
+      messagingSenderId: "663694107461",
+      appId: "1:663694107461:web:3f0be7085bcf8a50fbd42c",
+      measurementId: "G-K1M8Y2WDW1"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    // Show logged in user info
+    firebase.auth().onAuthStateChanged(function(user) {
+      const userDetails = document.getElementById("userDetails");
+      if (user) {
+        userDetails.textContent = `LoggedIn account: ${user.email}`;
+      } else {
+        userDetails.textContent = "No user is currently logged in.";
+      }
+    });
+
+    // Logout and delete user account
+    function logoutUser() {
+      const user = firebase.auth().currentUser;
+      const errorDiv = document.getElementById("error");
+
+      if (user) {
+        user.delete().then(() => {
+          firebase.auth().signOut().then(() => {
+            window.location.href = "index.html";
+          }).catch((err) => {
+            errorDiv.textContent = "Error during logout: " + err.message;
+          });
+        }).catch((err) => {
+          if (err.code === 'auth/requires-recent-login') {
+            errorDiv.textContent = "⚠️ You must re-login before deleting account.";
+          } else {
+            errorDiv.textContent = "Error deleting account: " + err.message;
+          }
+        });
+      } else {
+        errorDiv.textContent = "No active user session.";
+      }
+    }
+
+    // Logout only (without deleting account)
+    function logoutOnly() {
+      const errorDiv = document.getElementById("error");
+
+      firebase.auth().signOut().then(() => {
+        window.location.href = "index.html";
+      }).catch((err) => {
+        errorDiv.textContent = "Error during logout: " + err.message;
+      });
+    }
+  </script>
+</body>
+</html>

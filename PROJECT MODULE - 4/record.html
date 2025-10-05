@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EMR Management System</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f4f9fb;
+    }
+
+    header {
+      /* background: #21c2d8; */
+            background: linear-gradient(135deg, #5bb0e9, #6dfabf);
+      padding: 20px;
+      text-align: center;
+      color: white;
+      font-size: 24px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .sidebar {
+      width: 25%;
+      padding: 20px;
+      background: #fff;
+      border-right: 1px solid #ddd;
+      min-width: 250px;
+    }
+
+    .sidebar input, .sidebar button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .patient-list div {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+
+    .patient-list div:hover {
+      background: #f0f0f0;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+      border-radius: 6px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      /* background-color: #21c2d8; */
+            background: linear-gradient(135deg, #5bb0e9, #6dfabf);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .record-item {
+      border-top: 1px solid #ddd;
+      padding: 10px 0;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        border-right: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>Electronic Medical Records</header>
+
+<div class="container">
+  <div class="sidebar">
+    <h3>Add Patient</h3>
+    <form id="addPatientForm">
+      <input type="text" id="newName" placeholder="Name" required>
+      <input type="number" id="newAge" placeholder="Age" required>
+      <input type="text" id="newBlood" placeholder="Blood Type" required>
+      <input type="text" id="newAllergies" placeholder="Allergies">
+      <button type="submit">Add Patient</button>
+    </form>
+
+    <hr style="margin: 20px 0;">
+
+    <input type="text" id="search" placeholder="Search patients..." oninput="searchPatients()">
+    <div class="patient-list" id="patientList">
+        <!-- will be fill by js -->
+      
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="section">
+      <h2 id="patientName">Select a patient</h2>
+      <p id="patientInfo">No patient selected.</p>
+    </div>
+
+    <div class="section" id="recordFormSection" style="display: none;">
+      <h3>Add Medical Record</h3>
+      <form id="recordForm">
+        <label>Date</label>
+        <input type="date" id="date" required>
+
+        <label>Diagnosis</label>
+        <input type="text" id="diagnosis" required>
+
+        <label>Treatment</label>
+        <textarea id="treatment" required></textarea>
+
+        <label>Notes</label>
+        <textarea id="notes"></textarea>
+
+        <button type="submit">Save Record</button>
+      </form>
+    </div>
+
+    <div class="section" id="recordsSection" style="display: none;">
+      <h3>Medical History</h3>
+      <div id="recordsList">
+        <!-- will be fill by js -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+<script>
+  
+  const firebaseConfig = {
+    databaseURL: "https://akshita-hospital-default-rtdb.asia-southeast1.firebasedatabase.app"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  let patients = [];
+  let selectedPatient = null;
+
+  
+  function fetchPatients() {
+    db.ref("patients").on("value", snapshot => {
+      const data = snapshot.val();
+      patients = [];
+
+      for (let id in data) {
+        patients.push({ id, ...data[id] });
+      }
+
+      renderPatients();
+    });
+  }
+
+  function renderPatients(filter = "") {
+    const list = document.getElementById("patientList");
+    list.innerHTML = "";
+    patients
+      .filter(p => p.name.toLowerCase().includes(filter.toLowerCase()))
+      .forEach(p => {
+        const div = document.createElement("div");
+        div.textContent = p.name;
+        div.onclick = () => selectPatient(p.id);
+        list.appendChild(div);
+      });
+  }
+
+  function searchPatients() {
+    const filter = document.getElementById("search").value;
+    renderPatients(filter);
+  }
+
+  function selectPatient(id) {
+    selectedPatient = patients.find(p => p.id === id);
+    document.getElementById("patientName").textContent = selectedPatient.name;
+    document.getElementById("patientInfo").innerHTML =
+      `<strong>Age:</strong> ${selectedPatient.age}<br>
+       <strong>Blood Type:</strong> ${selectedPatient.blood}<br>
+       <strong>Allergies:</strong> ${selectedPatient.allergies}`;
+
+    document.getElementById("recordFormSection").style.display = "block";
+    document.getElementById("recordsSection").style.display = "block";
+
+    renderRecords();
+  }
+
+  function renderRecords() {
+    const list = document.getElementById("recordsList");
+    list.innerHTML = "";
+
+    const patientId = selectedPatient.id;
+    db.ref(`patients/${patientId}/records`).once("value", snapshot => {
+      const records = snapshot.val();
+      if (records) {
+        Object.values(records).forEach(r => {
+          const div = document.createElement("div");
+          div.className = "record-item";
+          div.innerHTML = `
+            <strong>Date:</strong> ${r.date}<br>
+            <strong>Diagnosis:</strong> ${r.diagnosis}<br>
+            <strong>Treatment:</strong> ${r.treatment}<br>
+            <strong>Notes:</strong> ${r.notes}
+          `;
+          list.appendChild(div);
+        });
+      }
+    });
+  }
+
+  
+  document.getElementById("recordForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const record = {
+      date: document.getElementById("date").value,
+      diagnosis: document.getElementById("diagnosis").value,
+      treatment: document.getElementById("treatment").value,
+      notes: document.getElementById("notes").value
+    };
+
+    const patientId = selectedPatient.id;
+    db.ref(`patients/${patientId}/records`).push().set(record, () => {
+      this.reset();
+      renderRecords();
+    });
+  });
+
+  
+  document.getElementById("addPatientForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const newPatient = {
+      name: document.getElementById("newName").value,
+      age: parseInt(document.getElementById("newAge").value),
+      blood: document.getElementById("newBlood").value,
+      allergies: document.getElementById("newAllergies").value || "None"
+    };
+
+    db.ref("patients").push().set(newPatient, () => {
+      this.reset();
+      fetchPatients();
+    });
+  });
+
+  
+  window.onload = fetchPatients;
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Appointment Reminder</title>
+</head>
+<body>
+  <h2>Appointment Reminder</h2>
+
+  <label>Appointment Description:</label><br>
+  <input type="text" id="message" placeholder="Doctor Appointment" required><br><br>
+
+  <label>Appointment Time:</label><br>
+  <input type="datetime-local" id="datetime" required><br><br>
+
+  <button onclick="setAppointment()">Set Appointment Reminder</button>
+  <p id="status"></p>
+
+  <script>
+    // Request notification permission on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      if ("Notification" in window) {
+        Notification.requestPermission();
+      } else {
+        alert("Your browser does not support notifications.");
+      }
+    });
+
+    function setAppointment() {
+      const message = document.getElementById('message').value;
+      const datetime = document.getElementById('datetime').value;
+
+      if (!message || !datetime) {
+        alert("Please enter both message and appointment time.");
+        return;
+      }
+
+      const appointmentTime = new Date(datetime);
+      const now = new Date();
+      const delay = appointmentTime - now;
+
+      if (delay <= 0) {
+        alert("Please select a future time.");
+        return;
+      }
+
+      document.getElementById('status').textContent = `Appointment set for ${appointmentTime.toLocaleString()}`;
+
+      setTimeout(() => {
+        if (Notification.permission === "granted") {
+          new Notification("Appointment Reminder", { body: message });
+        } else {
+          alert("Appointment Reminder: " + message);
+        }
+      }, delay);
+    }
+  </script>
+</body>
+</html>
