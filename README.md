@@ -44,7 +44,7 @@ The **Hospital Management System** is designed to handle essential hospital func
 
 1. **Clone the Repository**
    - Download or clone this project using Git:
-     - `git clone https://github.com/your-username/Hospital-Management.git`
+     - `git clone https://github.com/anuuuuu0094/Hospital-Management.git`
 2. **Set Up Firebase**
    - Create a Firebase project from [Firebase Console](https://console.firebase.google.com/).
    - Enable Authentication (Email/Password), Firestore Database, and Hosting.
@@ -75,17 +75,7 @@ This allows patients to pay consultation fees securely and instantly.
 
 ---
 
-## 📸 Screenshots
 
-Include some visuals of your project here:
-
-| Home Page | Dashboard | Appointment Page |
-|------------|------------|-----------------|
-| ![Home](assets/screenshots/home.png) | ![Dashboard](assets/screenshots/dashboard.png) | ![Appointment](assets/screenshots/appointment.png) |
-
-*(Make sure to replace with your actual image paths.)*
-
----
 
 ## 🔐 Security Features
 
